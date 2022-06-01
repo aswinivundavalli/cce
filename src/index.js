@@ -9,7 +9,6 @@ export default function App() {
       <Routes>
           <Route path="/:id" element={<CodeEditor />} />
           <Route path="/" element={<Home />}>
-          <Route index element={<Home />} />
           <Route path="*" element={<Home />} />
           </Route>
       </Routes>

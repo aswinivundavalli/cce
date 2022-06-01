@@ -6,7 +6,6 @@ import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/theme-github"; 
 import "ace-builds/src-noconflict/ext-language_tools"; 
 
-
 function onChange(newValue) { 
     console.log("new value:", newValue); 
     const requestOptions = { 
@@ -16,7 +15,7 @@ function onChange(newValue) {
                        'Access-Control-Allow-Headers': 'Content-Type'},
             body: JSON.stringify({"newData": newValue}) 
             }; 
-
+    // Update it with document Id, instead of 1.
     fetch('/1', requestOptions) 
         .then(response => response.json()) 
         .then(response => response) 
@@ -44,21 +43,23 @@ export default function CodeEditor () {
             .then(response => response.json()) 
             .then(response => {setDefaultValue(response); console.log("Response2:", response); setBackEndData(response["code"]); console.log("backData:",backEndData);}) 
             .then(data => {console.log("Data:", data)}); 
-        //console.log(response, data) 
-        // empty dependency array means this effect will only run once (like componentDidMount in classes) 
-    }, []);
-    console.log("backEndData_2:", backEndData) 
-    console.log("default value:", defaultValue['code'])
-    return( 
-        <AceEditor 
-            mode="java" 
-            theme="github" 
-            onChange={onChange()} 
-            name="UNIQUE_ID_OF_DIV" 
-            //defaultValue= {backEndData} 
-            //defaultValue="var i = 4;" 
-            defaultValue= {defaultValue['code'] || 'console.log("hello")'} 
-            editorProps={{ $blockScrolling: true }}
-        /> 
-    ) 
+            //console.log(response, data) 
+            // empty dependency array means this effect will only run once (like componentDidMount in classes) 
+            console.log("backEndData_2:", backEndData) 
+            console.log("default value:", defaultValue['code']) 
+        }, []);
+
+        return( 
+            <AceEditor 
+                mode="java" 
+                theme="github" 
+                onChange={onChange} 
+                //name="UNIQUE_ID_OF_DIV" 
+                //defaultValue= {backEndData} 
+                //defaultValue="var i = 4;" 
+                defaultValue= {defaultValue['code']} 
+                editorProps={{ $blockScrolling: true }}
+            /> 
+        )
+    
 }
