@@ -20,18 +20,15 @@ function onChange(newValue) {
         .then(response => response.json()) 
         .then(response => response) 
         .then(data => data); 
-} 
+}
 
 export default function CodeEditor () { 
     const location = useLocation(); 
     const id = location.pathname.split('/').at(-1); 
     console.log("document id:", id); 
-    //var defaultValue; 
-    const [backEndData, setBackEndData] = useState([{}]) 
     const [defaultValue, setDefaultValue] = useState([{}]) 
-    //setBackEndData("") 
-    useEffect(() => { 
-        //var defaultValue; 
+
+    useEffect(() => {
         // GET request using fetch inside useEffect React hook 
         const requestOptions = { 
             method: 'GET', 
@@ -41,12 +38,10 @@ export default function CodeEditor () {
             };
         fetch('/' + id, requestOptions) 
             .then(response => response.json()) 
-            .then(response => {setDefaultValue(response); console.log("Response2:", response); setBackEndData(response["code"]); console.log("backData:",backEndData);}) 
-            .then(data => {console.log("Data:", data)}); 
-            //console.log(response, data) 
-            // empty dependency array means this effect will only run once (like componentDidMount in classes) 
-            console.log("backEndData_2:", backEndData) 
-            console.log("default value:", defaultValue['code']) 
+            .then(response => {setDefaultValue(response); console.log("Response2:", response);}) 
+            .then(data => data); 
+        console.log("default value:", defaultValue['code']) 
+        // empty dependency array means this effect will only run once 
         }, []);
 
         return( 
@@ -54,11 +49,19 @@ export default function CodeEditor () {
                 mode="java" 
                 theme="github" 
                 onChange={onChange} 
-                //name="UNIQUE_ID_OF_DIV" 
-                //defaultValue= {backEndData} 
-                //defaultValue="var i = 4;" 
-                defaultValue= {defaultValue['code']} 
+                value= {defaultValue['code']} 
                 editorProps={{ $blockScrolling: true }}
+                fontSize={14}
+                showPrintMargin={true}
+                showGutter={true}
+                highlightActiveLine={true}
+                setOptions={{
+                    enableBasicAutocompletion: false,
+                    enableLiveAutocompletion: false,
+                    enableSnippets: false,
+                    showLineNumbers: true,
+                    tabSize: 2,
+                }}
             /> 
         )
     
